@@ -1,0 +1,856 @@
+{
+  "protocol_version": 1,
+  "dataset": "Fashion-MNIST official test split",
+  "evaluation_partition": "final",
+  "development_samples_per_class": 100,
+  "final_offset": 100,
+  "real_test_subset_seed": 2026,
+  "feature_extractor": "Frozen FashionClassifier penultimate 128-D features",
+  "kid_definition": "Unbiased cubic polynomial-kernel MMD; not Inception KID",
+  "coverage_definition": "Real test features with a generated neighbor within their nearest-real neighbor radius",
+  "samples_per_class": 100,
+  "sampling_seeds": [
+    2029,
+    2030,
+    2031
+  ],
+  "sampler": {
+    "diffusion_method": "ddim",
+    "diffusion_steps": 50,
+    "guidance_scale": 1.5
+  },
+  "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "models": {
+    "vae": {
+      "checkpoint": "checkpoints\\vae.pt",
+      "training_seed": 42,
+      "training_epochs": 20,
+      "training_seconds": 161.44050779996905,
+      "parameter_count": 551728,
+      "sample_runs": [
+        {
+          "class_fidelity": 0.6850000023841858,
+          "fashion_kid_mean": 126.36915798187256,
+          "fashion_kid_std_across_classes": 111.16722106933594,
+          "generated_feature_diversity": 0.194711172580719,
+          "relative_feature_coverage": 0.2929999977350235,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.7300000190734863,
+              "fashion_kid": 41.39981460571289,
+              "generated_feature_diversity": 0.2280665636062622,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Trouser": {
+              "class_fidelity": 0.9599999785423279,
+              "fashion_kid": 126.13272094726562,
+              "generated_feature_diversity": 0.14130496978759766,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.41999998688697815
+            },
+            "Pullover": {
+              "class_fidelity": 0.7900000214576721,
+              "fashion_kid": 104.31509399414062,
+              "generated_feature_diversity": 0.1993480920791626,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.44999998807907104
+            },
+            "Dress": {
+              "class_fidelity": 0.8199999928474426,
+              "fashion_kid": 22.701641082763672,
+              "generated_feature_diversity": 0.2571414113044739,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Coat": {
+              "class_fidelity": 0.550000011920929,
+              "fashion_kid": 64.9140396118164,
+              "generated_feature_diversity": 0.21507376432418823,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Sandal": {
+              "class_fidelity": 0.2800000011920929,
+              "fashion_kid": 269.920166015625,
+              "generated_feature_diversity": 0.18489128351211548,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.07999999821186066
+            },
+            "Shirt": {
+              "class_fidelity": 0.3499999940395355,
+              "fashion_kid": 31.285505294799805,
+              "generated_feature_diversity": 0.2732055187225342,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.38999998569488525
+            },
+            "Sneaker": {
+              "class_fidelity": 0.6200000047683716,
+              "fashion_kid": 78.3472900390625,
+              "generated_feature_diversity": 0.11000394821166992,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.18000000715255737
+            },
+            "Bag": {
+              "class_fidelity": 0.7799999713897705,
+              "fashion_kid": 135.01356506347656,
+              "generated_feature_diversity": 0.27939313650131226,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.07999999821186066
+            },
+            "Ankle boot": {
+              "class_fidelity": 0.9700000286102295,
+              "fashion_kid": 389.6617431640625,
+              "generated_feature_diversity": 0.058683037757873535,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.27000001072883606
+            }
+          },
+          "sampling_seed": 2029,
+          "generation_seconds": 0.00431879999996454,
+          "seconds_per_image": 4.31879999996454e-06
+        },
+        {
+          "class_fidelity": 0.7060000002384186,
+          "fashion_kid_mean": 133.15215454101562,
+          "fashion_kid_std_across_classes": 121.87737274169922,
+          "generated_feature_diversity": 0.19664186239242554,
+          "relative_feature_coverage": 0.2780000016093254,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.75,
+              "fashion_kid": 38.69184112548828,
+              "generated_feature_diversity": 0.19311022758483887,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.33000001311302185
+            },
+            "Trouser": {
+              "class_fidelity": 0.9399999976158142,
+              "fashion_kid": 102.07168579101562,
+              "generated_feature_diversity": 0.13315939903259277,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.5299999713897705
+            },
+            "Pullover": {
+              "class_fidelity": 0.7599999904632568,
+              "fashion_kid": 152.605224609375,
+              "generated_feature_diversity": 0.2344040870666504,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Dress": {
+              "class_fidelity": 0.7699999809265137,
+              "fashion_kid": 24.194067001342773,
+              "generated_feature_diversity": 0.28481125831604004,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.3100000023841858
+            },
+            "Coat": {
+              "class_fidelity": 0.6000000238418579,
+              "fashion_kid": 71.71659851074219,
+              "generated_feature_diversity": 0.2363688349723816,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Sandal": {
+              "class_fidelity": 0.28999999165534973,
+              "fashion_kid": 276.8500061035156,
+              "generated_feature_diversity": 0.1831299066543579,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.10999999940395355
+            },
+            "Shirt": {
+              "class_fidelity": 0.4099999964237213,
+              "fashion_kid": 31.966279983520508,
+              "generated_feature_diversity": 0.2653960585594177,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Sneaker": {
+              "class_fidelity": 0.7699999809265137,
+              "fashion_kid": 72.19219970703125,
+              "generated_feature_diversity": 0.09084349870681763,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.15000000596046448
+            },
+            "Bag": {
+              "class_fidelity": 0.7900000214576721,
+              "fashion_kid": 131.39859008789062,
+              "generated_feature_diversity": 0.3001275658607483,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.09000000357627869
+            },
+            "Ankle boot": {
+              "class_fidelity": 0.9800000190734863,
+              "fashion_kid": 429.8350524902344,
+              "generated_feature_diversity": 0.045067787170410156,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.2199999988079071
+            }
+          },
+          "sampling_seed": 2030,
+          "generation_seconds": 0.002903900000092108,
+          "seconds_per_image": 2.903900000092108e-06
+        },
+        {
+          "class_fidelity": 0.7159999966621399,
+          "fashion_kid_mean": 126.43218765258788,
+          "fashion_kid_std_across_classes": 117.99507904052734,
+          "generated_feature_diversity": 0.19525713920593263,
+          "relative_feature_coverage": 0.2990000009536743,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.7900000214576721,
+              "fashion_kid": 38.52728271484375,
+              "generated_feature_diversity": 0.19916290044784546,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.4000000059604645
+            },
+            "Trouser": {
+              "class_fidelity": 0.9700000286102295,
+              "fashion_kid": 68.58248901367188,
+              "generated_feature_diversity": 0.10062342882156372,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.4300000071525574
+            },
+            "Pullover": {
+              "class_fidelity": 0.8299999833106995,
+              "fashion_kid": 113.27696228027344,
+              "generated_feature_diversity": 0.21910333633422852,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.41999998688697815
+            },
+            "Dress": {
+              "class_fidelity": 0.7799999713897705,
+              "fashion_kid": 21.048416137695312,
+              "generated_feature_diversity": 0.2533789873123169,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Coat": {
+              "class_fidelity": 0.6299999952316284,
+              "fashion_kid": 91.07594299316406,
+              "generated_feature_diversity": 0.22359633445739746,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Sandal": {
+              "class_fidelity": 0.3499999940395355,
+              "fashion_kid": 270.8045959472656,
+              "generated_feature_diversity": 0.21269363164901733,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.07999999821186066
+            },
+            "Shirt": {
+              "class_fidelity": 0.3400000035762787,
+              "fashion_kid": 35.73301696777344,
+              "generated_feature_diversity": 0.27860355377197266,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Sneaker": {
+              "class_fidelity": 0.7400000095367432,
+              "fashion_kid": 76.41954803466797,
+              "generated_feature_diversity": 0.09104889631271362,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.17000000178813934
+            },
+            "Bag": {
+              "class_fidelity": 0.7699999809265137,
+              "fashion_kid": 132.56446838378906,
+              "generated_feature_diversity": 0.29573196172714233,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.09000000357627869
+            },
+            "Ankle boot": {
+              "class_fidelity": 0.9599999785423279,
+              "fashion_kid": 416.2891540527344,
+              "generated_feature_diversity": 0.07862836122512817,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.2800000011920929
+            }
+          },
+          "sampling_seed": 2031,
+          "generation_seconds": 0.003614499999457621,
+          "seconds_per_image": 3.614499999457621e-06
+        }
+      ],
+      "summary": {
+        "class_fidelity": {
+          "mean": 0.7023333330949147,
+          "std": 0.012918551452457905
+        },
+        "fashion_kid_mean": {
+          "mean": 128.65116672515867,
+          "std": 3.182785987854004
+        },
+        "generated_feature_diversity": {
+          "mean": 0.19553672472635905,
+          "std": 0.0008126135217025876
+        },
+        "relative_feature_coverage": {
+          "mean": 0.29000000009934107,
+          "std": 0.008831758052110672
+        },
+        "seconds_per_image": {
+          "mean": 3.6123999998380896e-06,
+          "std": 5.776325338047172e-07
+        }
+      }
+    },
+    "gan": {
+      "checkpoint": "checkpoints\\gan.pt",
+      "training_seed": 42,
+      "training_epochs": 20,
+      "training_seconds": 211.4160542000318,
+      "parameter_count": 653025,
+      "sample_runs": [
+        {
+          "class_fidelity": 0.925,
+          "fashion_kid_mean": 7.569559860229492,
+          "fashion_kid_std_across_classes": 4.806464672088623,
+          "generated_feature_diversity": 0.17756387591362,
+          "relative_feature_coverage": 0.37000000178813935,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.8700000047683716,
+              "fashion_kid": 9.543014526367188,
+              "generated_feature_diversity": 0.1942322850227356,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.3100000023841858
+            },
+            "Trouser": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 13.8453369140625,
+              "generated_feature_diversity": 0.09244197607040405,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.44999998807907104
+            },
+            "Pullover": {
+              "class_fidelity": 0.8799999952316284,
+              "fashion_kid": 9.786239624023438,
+              "generated_feature_diversity": 0.16897374391555786,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Dress": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 1.00347900390625,
+              "generated_feature_diversity": 0.24331998825073242,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.33000001311302185
+            },
+            "Coat": {
+              "class_fidelity": 0.8799999952316284,
+              "fashion_kid": 9.076736450195312,
+              "generated_feature_diversity": 0.2023259997367859,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Sandal": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 8.311431884765625,
+              "generated_feature_diversity": 0.1713239550590515,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.4300000071525574
+            },
+            "Shirt": {
+              "class_fidelity": 0.7099999785423279,
+              "fashion_kid": 5.037128448486328,
+              "generated_feature_diversity": 0.31224989891052246,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.4099999964237213
+            },
+            "Sneaker": {
+              "class_fidelity": 0.949999988079071,
+              "fashion_kid": -0.8477935791015625,
+              "generated_feature_diversity": 0.09425932168960571,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.5099999904632568
+            },
+            "Bag": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 14.874229431152344,
+              "generated_feature_diversity": 0.230330228805542,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.30000001192092896
+            },
+            "Ankle boot": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 5.0657958984375,
+              "generated_feature_diversity": 0.06618136167526245,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.2800000011920929
+            }
+          },
+          "sampling_seed": 2029,
+          "generation_seconds": 0.008956399999078712,
+          "seconds_per_image": 8.956399999078712e-06
+        },
+        {
+          "class_fidelity": 0.9160000085830688,
+          "fashion_kid_mean": 6.284671020507813,
+          "fashion_kid_std_across_classes": 6.628717422485352,
+          "generated_feature_diversity": 0.17460762858390808,
+          "relative_feature_coverage": 0.369999997317791,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.8600000143051147,
+              "fashion_kid": 3.1628189086914062,
+              "generated_feature_diversity": 0.20695704221725464,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Trouser": {
+              "class_fidelity": 0.9800000190734863,
+              "fashion_kid": -0.8060302734375,
+              "generated_feature_diversity": 0.09123480319976807,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.4000000059604645
+            },
+            "Pullover": {
+              "class_fidelity": 0.8600000143051147,
+              "fashion_kid": 14.366409301757812,
+              "generated_feature_diversity": 0.1331271529197693,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.4000000059604645
+            },
+            "Dress": {
+              "class_fidelity": 0.9800000190734863,
+              "fashion_kid": 0.9447555541992188,
+              "generated_feature_diversity": 0.25389158725738525,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.4099999964237213
+            },
+            "Coat": {
+              "class_fidelity": 0.8500000238418579,
+              "fashion_kid": 16.501426696777344,
+              "generated_feature_diversity": 0.2124730944633484,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.3400000035762787
+            },
+            "Sandal": {
+              "class_fidelity": 0.9700000286102295,
+              "fashion_kid": 8.978607177734375,
+              "generated_feature_diversity": 0.18547028303146362,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.38999998569488525
+            },
+            "Shirt": {
+              "class_fidelity": 0.7799999713897705,
+              "fashion_kid": 10.396400451660156,
+              "generated_feature_diversity": 0.27411413192749023,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Sneaker": {
+              "class_fidelity": 0.8899999856948853,
+              "fashion_kid": -0.719024658203125,
+              "generated_feature_diversity": 0.10392767190933228,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.4699999988079071
+            },
+            "Bag": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 12.246078491210938,
+              "generated_feature_diversity": 0.22062557935714722,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.23999999463558197
+            },
+            "Ankle boot": {
+              "class_fidelity": 1.0,
+              "fashion_kid": -2.2247314453125,
+              "generated_feature_diversity": 0.06425493955612183,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.28999999165534973
+            }
+          },
+          "sampling_seed": 2030,
+          "generation_seconds": 0.0058030000000144355,
+          "seconds_per_image": 5.803000000014435e-06
+        },
+        {
+          "class_fidelity": 0.9080000042915344,
+          "fashion_kid_mean": 8.722410202026367,
+          "fashion_kid_std_across_classes": 11.478001594543457,
+          "generated_feature_diversity": 0.17783623933792114,
+          "relative_feature_coverage": 0.38199999928474426,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.8199999928474426,
+              "fashion_kid": 9.066398620605469,
+              "generated_feature_diversity": 0.189342200756073,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Trouser": {
+              "class_fidelity": 1.0,
+              "fashion_kid": -1.23321533203125,
+              "generated_feature_diversity": 0.07633394002914429,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.46000000834465027
+            },
+            "Pullover": {
+              "class_fidelity": 0.9399999976158142,
+              "fashion_kid": 14.60040283203125,
+              "generated_feature_diversity": 0.13603389263153076,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.38999998569488525
+            },
+            "Dress": {
+              "class_fidelity": 0.9800000190734863,
+              "fashion_kid": 0.9649505615234375,
+              "generated_feature_diversity": 0.24282532930374146,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.38999998569488525
+            },
+            "Coat": {
+              "class_fidelity": 0.800000011920929,
+              "fashion_kid": 37.462432861328125,
+              "generated_feature_diversity": 0.23553061485290527,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Sandal": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 0.042999267578125,
+              "generated_feature_diversity": 0.18288326263427734,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.3499999940395355
+            },
+            "Shirt": {
+              "class_fidelity": 0.6800000071525574,
+              "fashion_kid": 6.812145233154297,
+              "generated_feature_diversity": 0.29667210578918457,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Sneaker": {
+              "class_fidelity": 0.8700000047683716,
+              "fashion_kid": -0.7343292236328125,
+              "generated_feature_diversity": 0.10123074054718018,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.550000011920929
+            },
+            "Bag": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 18.03223419189453,
+              "generated_feature_diversity": 0.2547392249107361,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.3100000023841858
+            },
+            "Ankle boot": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 2.2100830078125,
+              "generated_feature_diversity": 0.06277108192443848,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.30000001192092896
+            }
+          },
+          "sampling_seed": 2031,
+          "generation_seconds": 0.0052777999990212265,
+          "seconds_per_image": 5.277799999021227e-06
+        }
+      ],
+      "summary": {
+        "class_fidelity": {
+          "mean": 0.9163333376248678,
+          "std": 0.006944230291992426
+        },
+        "fashion_kid_mean": {
+          "mean": 7.525547027587891,
+          "std": 0.9956894516944885
+        },
+        "generated_feature_diversity": {
+          "mean": 0.17666924794514974,
+          "std": 0.0014620166039094329
+        },
+        "relative_feature_coverage": {
+          "mean": 0.37399999946355816,
+          "std": 0.005656851455569267
+        },
+        "seconds_per_image": {
+          "mean": 6.679066666038125e-06,
+          "std": 1.6245295455519226e-06
+        }
+      }
+    },
+    "ddpm": {
+      "checkpoint": "checkpoints\\diffusion_30epochs.pt",
+      "training_seed": 42,
+      "training_epochs": 30,
+      "training_seconds": 689.7919884999992,
+      "parameter_count": 351329,
+      "sample_runs": [
+        {
+          "class_fidelity": 0.8920000076293946,
+          "fashion_kid_mean": 32.487799644470215,
+          "fashion_kid_std_across_classes": 33.8646125793457,
+          "generated_feature_diversity": 0.1635645091533661,
+          "relative_feature_coverage": 0.32000000178813937,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.9700000286102295,
+              "fashion_kid": 3.9926834106445312,
+              "generated_feature_diversity": 0.10739505290985107,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.41999998688697815
+            },
+            "Trouser": {
+              "class_fidelity": 0.949999988079071,
+              "fashion_kid": 124.6788330078125,
+              "generated_feature_diversity": 0.14837908744812012,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.3400000035762787
+            },
+            "Pullover": {
+              "class_fidelity": 0.7900000214576721,
+              "fashion_kid": 55.6837158203125,
+              "generated_feature_diversity": 0.13608336448669434,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Dress": {
+              "class_fidelity": 0.9300000071525574,
+              "fashion_kid": 12.298965454101562,
+              "generated_feature_diversity": 0.2627924680709839,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.3400000035762787
+            },
+            "Coat": {
+              "class_fidelity": 0.9399999976158142,
+              "fashion_kid": 38.60059356689453,
+              "generated_feature_diversity": 0.18683403730392456,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.25
+            },
+            "Sandal": {
+              "class_fidelity": 0.9700000286102295,
+              "fashion_kid": 12.91546630859375,
+              "generated_feature_diversity": 0.17456865310668945,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Shirt": {
+              "class_fidelity": 0.5199999809265137,
+              "fashion_kid": 25.893339157104492,
+              "generated_feature_diversity": 0.23512279987335205,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.3499999940395355
+            },
+            "Sneaker": {
+              "class_fidelity": 0.8500000238418579,
+              "fashion_kid": 19.776657104492188,
+              "generated_feature_diversity": 0.11433112621307373,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.2199999988079071
+            },
+            "Bag": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 17.747215270996094,
+              "generated_feature_diversity": 0.19363605976104736,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.27000001072883606
+            },
+            "Ankle boot": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 13.29052734375,
+              "generated_feature_diversity": 0.07650244235992432,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.2800000011920929
+            }
+          },
+          "sampling_seed": 2029,
+          "generation_seconds": 8.902482800000143,
+          "seconds_per_image": 0.008902482800000144
+        },
+        {
+          "class_fidelity": 0.8869999945163727,
+          "fashion_kid_mean": 31.85567283630371,
+          "fashion_kid_std_across_classes": 32.49829864501953,
+          "generated_feature_diversity": 0.1614715039730072,
+          "relative_feature_coverage": 0.31499999910593035,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.9599999785423279,
+              "fashion_kid": 3.3935089111328125,
+              "generated_feature_diversity": 0.10686039924621582,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.3799999952316284
+            },
+            "Trouser": {
+              "class_fidelity": 0.9399999976158142,
+              "fashion_kid": 120.82308959960938,
+              "generated_feature_diversity": 0.13905054330825806,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.3100000023841858
+            },
+            "Pullover": {
+              "class_fidelity": 0.8100000023841858,
+              "fashion_kid": 46.0823974609375,
+              "generated_feature_diversity": 0.12087702751159668,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.41999998688697815
+            },
+            "Dress": {
+              "class_fidelity": 0.949999988079071,
+              "fashion_kid": 12.073257446289062,
+              "generated_feature_diversity": 0.2507503032684326,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.2800000011920929
+            },
+            "Coat": {
+              "class_fidelity": 0.8899999856948853,
+              "fashion_kid": 45.17683410644531,
+              "generated_feature_diversity": 0.2056700587272644,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.30000001192092896
+            },
+            "Sandal": {
+              "class_fidelity": 0.949999988079071,
+              "fashion_kid": 12.8990478515625,
+              "generated_feature_diversity": 0.17690825462341309,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.3499999940395355
+            },
+            "Shirt": {
+              "class_fidelity": 0.5600000023841858,
+              "fashion_kid": 25.125179290771484,
+              "generated_feature_diversity": 0.22564101219177246,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Sneaker": {
+              "class_fidelity": 0.8199999928474426,
+              "fashion_kid": 23.581649780273438,
+              "generated_feature_diversity": 0.12865155935287476,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.3100000023841858
+            },
+            "Bag": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 13.432891845703125,
+              "generated_feature_diversity": 0.184160053730011,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.23000000417232513
+            },
+            "Ankle boot": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 15.9688720703125,
+              "generated_feature_diversity": 0.07614582777023315,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.25
+            }
+          },
+          "sampling_seed": 2030,
+          "generation_seconds": 9.1639054999996,
+          "seconds_per_image": 0.0091639054999996
+        },
+        {
+          "class_fidelity": 0.886000007390976,
+          "fashion_kid_mean": 32.174118232727054,
+          "fashion_kid_std_across_classes": 30.79343032836914,
+          "generated_feature_diversity": 0.158501136302948,
+          "relative_feature_coverage": 0.3060000047087669,
+          "per_class": {
+            "T-shirt/top": {
+              "class_fidelity": 0.9599999785423279,
+              "fashion_kid": 4.7329254150390625,
+              "generated_feature_diversity": 0.10328924655914307,
+              "real_feature_diversity": 0.20146679878234863,
+              "relative_feature_coverage": 0.36000001430511475
+            },
+            "Trouser": {
+              "class_fidelity": 0.9900000095367432,
+              "fashion_kid": 116.71820068359375,
+              "generated_feature_diversity": 0.11550456285476685,
+              "real_feature_diversity": 0.07067286968231201,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Pullover": {
+              "class_fidelity": 0.8700000047683716,
+              "fashion_kid": 48.31488037109375,
+              "generated_feature_diversity": 0.11178511381149292,
+              "real_feature_diversity": 0.15854167938232422,
+              "relative_feature_coverage": 0.3700000047683716
+            },
+            "Dress": {
+              "class_fidelity": 0.9200000166893005,
+              "fashion_kid": 13.109817504882812,
+              "generated_feature_diversity": 0.23816591501235962,
+              "real_feature_diversity": 0.26980501413345337,
+              "relative_feature_coverage": 0.27000001072883606
+            },
+            "Coat": {
+              "class_fidelity": 0.8600000143051147,
+              "fashion_kid": 38.33979034423828,
+              "generated_feature_diversity": 0.20270663499832153,
+              "real_feature_diversity": 0.2312932014465332,
+              "relative_feature_coverage": 0.25
+            },
+            "Sandal": {
+              "class_fidelity": 0.9100000262260437,
+              "fashion_kid": 17.466049194335938,
+              "generated_feature_diversity": 0.1866866946220398,
+              "real_feature_diversity": 0.196186363697052,
+              "relative_feature_coverage": 0.30000001192092896
+            },
+            "Shirt": {
+              "class_fidelity": 0.49000000953674316,
+              "fashion_kid": 25.842432022094727,
+              "generated_feature_diversity": 0.2368221879005432,
+              "real_feature_diversity": 0.30805718898773193,
+              "relative_feature_coverage": 0.33000001311302185
+            },
+            "Sneaker": {
+              "class_fidelity": 0.8600000143051147,
+              "fashion_kid": 26.999488830566406,
+              "generated_feature_diversity": 0.12676316499710083,
+              "real_feature_diversity": 0.1051453948020935,
+              "relative_feature_coverage": 0.3199999928474426
+            },
+            "Bag": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 20.30500030517578,
+              "generated_feature_diversity": 0.19187092781066895,
+              "real_feature_diversity": 0.22862225770950317,
+              "relative_feature_coverage": 0.25
+            },
+            "Ankle boot": {
+              "class_fidelity": 1.0,
+              "fashion_kid": 9.91259765625,
+              "generated_feature_diversity": 0.07141691446304321,
+              "real_feature_diversity": 0.07930326461791992,
+              "relative_feature_coverage": 0.23999999463558197
+            }
+          },
+          "sampling_seed": 2031,
+          "generation_seconds": 10.962573700000576,
+          "seconds_per_image": 0.010962573700000576
+        }
+      ],
+      "summary": {
+        "class_fidelity": {
+          "mean": 0.8883333365122477,
+          "std": 0.002624673303216696
+        },
+        "fashion_kid_mean": {
+          "mean": 32.17253023783366,
+          "std": 0.2580675184726715
+        },
+        "generated_feature_diversity": {
+          "mean": 0.16117904980977374,
+          "std": 0.002077430486679077
+        },
+        "relative_feature_coverage": {
+          "mean": 0.3136666685342789,
+          "std": 0.005792715586721897
+        },
+        "seconds_per_image": {
+          "mean": 0.009676320666666774,
+          "std": 0.0009157586027868092
+        }
+      }
+    }
+  }
+}

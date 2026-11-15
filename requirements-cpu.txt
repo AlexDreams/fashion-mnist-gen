@@ -1,0 +1,14 @@
+# Installation sans GPU (PyTorch CPU). Même versions que requirements.txt.
+--index-url https://pypi.org/simple
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.7.1
+torchvision==0.22.1
+numpy==2.2.6
+matplotlib==3.10.3
+scikit-learn==1.7.0
+torchmetrics==1.7.3
+torch-fidelity==0.3.0
+tqdm==4.67.1
+pillow==11.3.0
+streamlit==1.48.0
+pytest==8.4.1
