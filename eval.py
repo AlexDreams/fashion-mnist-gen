@@ -5,6 +5,8 @@ written below so that the report table can be regenerated from the provided
 checkpoints. Any argument of ``evaluate_protocol.py`` can be appended to
 override it, e.g. ``python eval.py --no-inception-kid`` or
 ``python eval.py --dev`` while tuning (development slice, never the final one).
+The final protocol uses DDPM guidance 2.0 and latent-diffusion guidance 3.0,
+with the same selected scale across that model's samplers.
 
 Missing generator checkpoints are skipped with a warning, so the table can be
 built level by level during the project.
@@ -31,7 +33,7 @@ DEVELOPMENT_PROTOCOL = [
     "--samples-per-class", "100",
     "--seeds", "2026", "2027", "2028",
 ]
-# One table row per diffusion setting, as requested by the brief.
+# Development baseline: one row per sampler, at the common guidance 1.5.
 DIFFUSION_CONFIGS = ["ddpm:1000:1.5", "ddim:50:1.5", "ddim:10:1.5"]
 CHECKPOINTS = {
     "vae": Path("checkpoints/vae.pt"),
@@ -73,10 +75,37 @@ def main() -> None:
         )
 
     output_dir = "runs/eval_dev" if own.dev else "runs/eval_final"
+    has_diffusion_override = any(
+        argument == flag or argument.startswith(flag + "=")
+        for argument in passthrough
+        for flag in (
+            "--diffusion-configs",
+            "--diffusion-sampler",
+            "--diffusion-steps",
+            "--guidance-scale",
+        )
+    )
+    if has_diffusion_override:
+        diffusion_args = []
+    elif own.dev:
+        diffusion_args = ["--diffusion-configs", *DIFFUSION_CONFIGS]
+    else:
+        diffusion_args = []
+        for model_name, configs in evaluate_protocol.FINAL_DIFFUSION_CONFIGS_BY_MODEL.items():
+            diffusion_args.extend(
+                [
+                    f"--{model_name}-configs",
+                    *[
+                        f"{config['method']}:{config['steps']}:{config['guidance_scale']:g}"
+                        for config in configs
+                    ],
+                ]
+            )
+
     argv = [
         *(DEVELOPMENT_PROTOCOL if own.dev else FINAL_PROTOCOL),
         "--models", *models,
-        "--diffusion-configs", *DIFFUSION_CONFIGS,
+        *diffusion_args,
         "--vae", str(CHECKPOINTS["vae"]),
         "--gan", str(CHECKPOINTS["gan"]),
         "--ddpm", str(CHECKPOINTS["ddpm"]),

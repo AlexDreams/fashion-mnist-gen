@@ -26,7 +26,6 @@ POOL_DIR = HUMAN_DIR / "pool"
 MANIFEST = HUMAN_DIR / "manifest.json"
 ANSWERS = HUMAN_DIR / "answers.jsonl"
 RESULTS = HUMAN_DIR / "results.json"
-DEFAULT_DIFFUSION = {"method": "ddim", "steps": 50, "guidance_scale": 1.5}
 
 
 def save_png(image: torch.Tensor, path: Path) -> None:
@@ -37,6 +36,7 @@ def save_png(image: torch.Tensor, path: Path) -> None:
 def prepare(args: argparse.Namespace) -> None:
     from evaluate_protocol import (
         DIFFUSION_MODELS,
+        HUMAN_TEST_DIFFUSION_CONFIGS,
         collect_real_images,
         diffusion_key,
         load_generator,
@@ -57,6 +57,7 @@ def prepare(args: argparse.Namespace) -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     rng = random.Random(args.seed)
     items: list[dict[str, Any]] = []
+    diffusion_settings: dict[str, dict[str, Any]] = {}
 
     def add(source: str, images: torch.Tensor, labels: list[int]) -> None:
         for image, label in zip(images, labels):
@@ -74,14 +75,16 @@ def prepare(args: argparse.Namespace) -> None:
         label_tensor = torch.tensor(labels, device=device)
         generator = torch.Generator(device=device).manual_seed(args.seed)
         if name in DIFFUSION_MODELS:
+            config = HUMAN_TEST_DIFFUSION_CONFIGS[name]
+            diffusion_settings[name] = config
             images = model.sample(
                 label_tensor,
-                method=DEFAULT_DIFFUSION["method"],
-                num_inference_steps=DEFAULT_DIFFUSION["steps"],
-                guidance_scale=DEFAULT_DIFFUSION["guidance_scale"],
+                method=config["method"],
+                num_inference_steps=config["steps"],
+                guidance_scale=config["guidance_scale"],
                 generator=generator,
             )
-            source = diffusion_key(DEFAULT_DIFFUSION, name)
+            source = diffusion_key(config, name)
         else:
             images = model.sample(label_tensor, generator=generator)
             source = name
@@ -101,7 +104,7 @@ def prepare(args: argparse.Namespace) -> None:
             {
                 "seed": args.seed,
                 "images_per_source": args.images_per_source,
-                "diffusion_settings": DEFAULT_DIFFUSION,
+                "diffusion_settings": diffusion_settings,
                 "items": items,
             },
             indent=2,
