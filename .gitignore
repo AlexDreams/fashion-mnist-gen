@@ -9,3 +9,4 @@ runs/
 *.zip
 .env
 Projet_IA_Generative_2026_1.pdf
+runs_cpu_ancien/
