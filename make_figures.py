@@ -25,7 +25,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import torch
 
-from evaluate_protocol import DIFFUSION_MODELS, collect_real_images, load_generator
+from evaluate_protocol import (
+    DIFFUSION_MODELS,
+    HUMAN_TEST_DIFFUSION_CONFIGS,
+    collect_real_images,
+    load_generator,
+)
 from fashion_mnist_gen import visualize
 from fashion_mnist_gen.classifier import FashionClassifier
 from fashion_mnist_gen.data import CLASS_NAMES, make_dataloaders
@@ -44,7 +49,9 @@ STEP_VALUES = (5, 10, 20, 50)
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=2026)
-    parser.add_argument("--guidance", type=float, default=1.5)
+    parser.add_argument("--guidance", type=float, default=None,
+                        help="Same guidance for every model (default: the selected one "
+                             "per model, 2.0 pixels and 3.0 latent).")
     parser.add_argument("--steps", type=int, default=50)
     parser.add_argument(
         "--with-ddpm",
@@ -63,6 +70,13 @@ def parse_args() -> argparse.Namespace:
                         default=Path("checkpoints/latent_diffusion.pt"))
     parser.add_argument("--output-dir", type=Path, default=Path("runs/figures"))
     return parser.parse_args()
+
+
+def guidance_for(name: str, args: argparse.Namespace) -> float:
+    """Guidance used for a model: --guidance if given, else the frozen final value."""
+    if args.guidance is not None:
+        return args.guidance
+    return HUMAN_TEST_DIFFUSION_CONFIGS.get(name, {"guidance_scale": 1.0})["guidance_scale"]
 
 
 def sample(name, model, labels, seed, device, method="ddim", steps=50, guidance=1.5):
@@ -104,7 +118,8 @@ def failures_figure(name, model, classifier, args, device, path: Path) -> None:
     images = []
     for start in range(0, len(labels), 500):
         images.append(sample(name, model, labels[start:start + 500],
-                             args.seed + start, device, "ddim", args.steps, args.guidance))
+                             args.seed + start, device, "ddim", args.steps,
+                             guidance_for(name, args)))
     images = torch.cat(images)
     with torch.inference_mode():
         probabilities = torch.cat([
@@ -214,7 +229,7 @@ def model_views(models, real, args, device) -> None:
         generator = torch.Generator(device=device).manual_seed(args.seed)
         with torch.inference_mode():
             model.sample(labels, method="ddim", num_inference_steps=args.steps,
-                         guidance_scale=args.guidance, generator=generator,
+                         guidance_scale=guidance_for(name, args), generator=generator,
                          trajectory=trajectory)
         selected = visualize.pick_steps(trajectory, 10)
         rows = []
@@ -286,10 +301,13 @@ def main() -> None:
         for images in real]))]
     for name, model in models.items():
         rows.append((LEVEL_NAMES[name], sample(name, model, labels, args.seed, device,
-                                               "ddim", args.steps, args.guidance)))
+                                               "ddim", args.steps,
+                                               guidance_for(name, args))))
+    guidances = ", ".join(f"{name} {guidance_for(name, args):g}"
+                          for name in models if name in DIFFUSION_MODELS)
     image_rows(rows, args.output_dir / "comparaison_niveaux.png",
                f"Même demande pour chaque niveau (graine {args.seed}, diffusion DDIM "
-               f"{args.steps} pas, guidance {args.guidance:g})", list(CLASS_NAMES))
+               f"{args.steps} pas, guidance {guidances or '-'})", list(CLASS_NAMES))
 
     for name, model in models.items():
         if name not in DIFFUSION_MODELS:
@@ -302,15 +320,15 @@ def main() -> None:
             f"{LEVEL_NAMES[name]} : effet de la guidance (DDIM {args.steps} pas)",
             list(CLASS_NAMES))
         step_rows = [(f"DDIM {value}", sample(name, model, labels, args.seed, device,
-                                              "ddim", value, args.guidance))
+                                              "ddim", value, guidance_for(name, args)))
                      for value in STEP_VALUES]
         if args.with_ddpm:
             step_rows.append(("DDPM 1000", sample(name, model, labels, args.seed, device,
                                                   "ddpm", model.num_timesteps,
-                                                  args.guidance)))
+                                                  guidance_for(name, args))))
         image_rows(step_rows, args.output_dir / f"pas_{name}.png",
                    f"{LEVEL_NAMES[name]} : effet du nombre de pas "
-                   f"(guidance {args.guidance:g})", list(CLASS_NAMES))
+                   f"(guidance {guidance_for(name, args):g})", list(CLASS_NAMES))
 
     if args.classifier.is_file():
         classifier = FashionClassifier().to(device)

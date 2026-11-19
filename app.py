@@ -23,7 +23,11 @@ from PIL import Image  # noqa: E402
 from torch.nn import functional as F  # noqa: E402
 from torchvision.utils import make_grid  # noqa: E402
 
-from evaluate_protocol import DIFFUSION_MODELS, load_generator  # noqa: E402
+from evaluate_protocol import (  # noqa: E402
+    DIFFUSION_MODELS,
+    HUMAN_TEST_DIFFUSION_CONFIGS,
+    load_generator,
+)
 from fashion_mnist_gen import visualize  # noqa: E402
 from fashion_mnist_gen.data import CLASS_NAMES  # noqa: E402
 
@@ -121,9 +125,12 @@ def parameter_count(name: str, model: torch.nn.Module) -> int:
 
 
 def generate(name: str, labels: list[int] | torch.Tensor, seed: int, method: str = "ddim",
-             steps: int = 50, guidance: float = 1.5,
+             steps: int = 50, guidance: float | None = None,
              trajectory: list | None = None) -> tuple[torch.Tensor, float]:
+    """``guidance=None`` uses the value selected for that model (final protocol)."""
     model, _ = model_for(name)
+    if guidance is None and name in DIFFUSION_MODELS:
+        guidance = HUMAN_TEST_DIFFUSION_CONFIGS[name]["guidance_scale"]
     labels = torch.as_tensor(labels, dtype=torch.long, device=DEVICE)
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
     start = time.perf_counter()
@@ -188,7 +195,18 @@ if method == "ddpm":
     st.sidebar.caption("DDPM utilise les 1 000 pas du bruitage (lent sur CPU).")
 else:
     steps = st.sidebar.select_slider("Nombre de pas DDIM", (5, 10, 20, 50, 100, 250), 50)
-guidance = st.sidebar.slider("Échelle de guidance", 0.0, 6.0, 1.5, step=0.5)
+selected_guidance = st.sidebar.toggle(
+    "Guidance retenue par modèle", value=True,
+    help="Valeurs choisies par le balayage de développement : "
+         + ", ".join(f"{LEVEL_NAMES[name]} {config['guidance_scale']:g}"
+                     for name, config in HUMAN_TEST_DIFFUSION_CONFIGS.items()),
+)
+if selected_guidance:
+    guidance = None
+    st.sidebar.caption(" · ".join(f"{name.upper()} : {config['guidance_scale']:g}"
+                                  for name, config in HUMAN_TEST_DIFFUSION_CONFIGS.items()))
+else:
+    guidance = st.sidebar.slider("Échelle de guidance", 0.0, 6.0, 1.5, step=0.5)
 st.sidebar.caption("Guidance 1 = conditionnel simple, 0 = sans classe, > 1 = classe renforcée.")
 
 st.markdown(

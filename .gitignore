@@ -6,6 +6,6 @@ __pycache__/
 data/
 checkpoints/
 runs/
-fashion_mnist_checkpoints.zip
+*.zip
 .env
 Projet_IA_Generative_2026_1.pdf
