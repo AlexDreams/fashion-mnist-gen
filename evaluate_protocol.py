@@ -81,6 +81,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             "--diffusion-sampler/--diffusion-steps/--guidance-scale."
         ),
     )
+    for model_name in DIFFUSION_MODELS:
+        parser.add_argument(
+            f"--{model_name}-configs",
+            nargs="+",
+            default=None,
+            metavar="SAMPLER:STEPS:GUIDANCE",
+            help=f"Diffusion settings for {model_name} only; overrides --diffusion-configs.",
+        )
     parser.add_argument(
         "--inception-kid",
         action=argparse.BooleanOptionalAction,
@@ -162,6 +170,23 @@ def parse_diffusion_config(text: str) -> dict[str, Any]:
 
 DIFFUSION_MODELS = ("ddpm", "ldm")
 
+HUMAN_TEST_DIFFUSION_CONFIGS = {
+    "ddpm": {"method": "ddim", "steps": 50, "guidance_scale": 2.0},
+    "ldm": {"method": "ddim", "steps": 50, "guidance_scale": 3.0},
+}
+FINAL_DIFFUSION_CONFIGS_BY_MODEL = {
+    "ddpm": [
+        {"method": "ddpm", "steps": 1000, "guidance_scale": 2.0},
+        HUMAN_TEST_DIFFUSION_CONFIGS["ddpm"],
+        {"method": "ddim", "steps": 10, "guidance_scale": 2.0},
+    ],
+    "ldm": [
+        {"method": "ddpm", "steps": 1000, "guidance_scale": 3.0},
+        HUMAN_TEST_DIFFUSION_CONFIGS["ldm"],
+        {"method": "ddim", "steps": 10, "guidance_scale": 3.0},
+    ],
+}
+
 
 def diffusion_key(config: dict[str, Any], name: str = "ddpm") -> str:
     return f"{name}_{config['method']}{config['steps']}_g{config['guidance_scale']:g}"
@@ -173,6 +198,28 @@ def diffusion_label(config: dict[str, Any], name: str = "ddpm") -> str:
         f"{prefix} {config['method'].upper()} {config['steps']} pas, "
         f"guidance {config['guidance_scale']:g}"
     )
+
+
+def resolve_diffusion_configs(args: argparse.Namespace) -> dict[str, list[dict[str, Any]]]:
+    if args.diffusion_configs:
+        shared_configs = [parse_diffusion_config(text) for text in args.diffusion_configs]
+    else:
+        shared_configs = [
+            {
+                "method": args.diffusion_sampler,
+                "steps": args.diffusion_steps,
+                "guidance_scale": args.guidance_scale,
+            }
+        ]
+    configs_by_model = {}
+    for model_name in DIFFUSION_MODELS:
+        model_configs = getattr(args, f"{model_name}_configs")
+        configs_by_model[model_name] = (
+            [parse_diffusion_config(text) for text in model_configs]
+            if model_configs
+            else shared_configs
+        )
+    return configs_by_model
 
 
 def load_generator(
@@ -650,16 +697,18 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
     if not args.classifier.is_file():
         raise FileNotFoundError(f"Missing classifier checkpoint: {args.classifier}")
 
-    if args.diffusion_configs:
-        diffusion_configs = [parse_diffusion_config(text) for text in args.diffusion_configs]
-    else:
-        diffusion_configs = [
+    diffusion_configs_by_model = resolve_diffusion_configs(args)
+    diffusion_configs = (
+        [parse_diffusion_config(text) for text in args.diffusion_configs]
+        if args.diffusion_configs
+        else [
             {
                 "method": args.diffusion_sampler,
                 "steps": args.diffusion_steps,
                 "guidance_scale": args.guidance_scale,
             }
         ]
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     classifier_checkpoint = torch.load(
@@ -750,6 +799,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         "samples_per_class": args.samples_per_class,
         "sampling_seeds": list(args.seeds),
         "diffusion_configs": diffusion_configs,
+        "diffusion_configs_by_model": diffusion_configs_by_model,
         "device": torch.cuda.get_device_name(device) if device.type == "cuda" else "CPU",
         "models": {},
     }
@@ -809,7 +859,8 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
     for name in args.models:
         if name in DIFFUSION_MODELS:
             entries.extend(
-                (diffusion_key(config, name), name, config) for config in diffusion_configs
+                (diffusion_key(config, name), name, config)
+                for config in diffusion_configs_by_model[name]
             )
         else:
             entries.append((name, name, None))

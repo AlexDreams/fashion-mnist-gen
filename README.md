@@ -67,8 +67,8 @@ d’entraînement est rapporté avec celui du VAE (« + VAE … s » dans le tab
 ## Test humain à l’aveugle
 
 ```powershell
-.\.venv\Scripts\python.exe human_test.py prepare   # pool fixe : 20 images par niveau + 20 vraies
-.\.venv\Scripts\streamlit.exe run app.py           # onglet « Test humain », 5 personnes
+.\.venv\Scripts\python.exe human_test.py prepare   # une seule fois : 20 images par source
+.\.venv\Scripts\streamlit.exe run app.py --server.address 127.0.0.1  # onglet « Test humain », 5 personnes
 .\.venv\Scripts\python.exe human_test.py score     # runs/human_test/results.json
 ```
 
@@ -77,6 +77,11 @@ score d’un niveau est la part de ses images jugées « vraies » (un succès p
 le générateur) ; les vraies images donnent le taux de contrôle. `eval.py`
 ajoute automatiquement une colonne « Test humain » quand le fichier de
 résultats existe.
+
+Le pool utilise DDIM 50 pas avec une guidance de 2,0 pour la diffusion pixel et
+de 3,0 pour la diffusion latente, conformément aux réglages retenus pour
+l’évaluation finale. Il faut le générer une seule fois avant les participants ;
+`--force` le recrée et efface les réponses déjà collectées.
 
 ## Démarrage rapide
 

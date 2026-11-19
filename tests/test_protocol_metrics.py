@@ -88,3 +88,51 @@ def test_parse_diffusion_config() -> None:
     assert diffusion_key(config) == "ddpm_ddim50_g1.5"
     with pytest.raises(ValueError):
         parse_diffusion_config("ddim:50")
+
+
+def test_model_specific_diffusion_configs_override_shared_configs() -> None:
+    from evaluate_protocol import parse_args, resolve_diffusion_configs
+
+    args = parse_args(
+        [
+            "--diffusion-configs", "ddpm:1000:1.5",
+            "--ddpm-configs", "ddim:50:2",
+            "--ldm-configs", "ddim:50:3",
+        ]
+    )
+
+    configs = resolve_diffusion_configs(args)
+
+    assert configs["ddpm"] == [
+        {"method": "ddim", "steps": 50, "guidance_scale": 2.0}
+    ]
+    assert configs["ldm"] == [
+        {"method": "ddim", "steps": 50, "guidance_scale": 3.0}
+    ]
+
+
+def test_shared_diffusion_configs_still_apply_to_both_models() -> None:
+    from evaluate_protocol import parse_args, resolve_diffusion_configs
+
+    args = parse_args(["--diffusion-configs", "ddim:50:1.5"])
+
+    configs = resolve_diffusion_configs(args)
+
+    expected = [{"method": "ddim", "steps": 50, "guidance_scale": 1.5}]
+    assert configs == {"ddpm": expected, "ldm": expected}
+
+
+def test_final_human_settings_match_final_evaluation_rows() -> None:
+    from evaluate_protocol import (
+        FINAL_DIFFUSION_CONFIGS_BY_MODEL,
+        HUMAN_TEST_DIFFUSION_CONFIGS,
+    )
+
+    assert (
+        FINAL_DIFFUSION_CONFIGS_BY_MODEL["ddpm"][1]
+        == HUMAN_TEST_DIFFUSION_CONFIGS["ddpm"]
+    )
+    assert (
+        FINAL_DIFFUSION_CONFIGS_BY_MODEL["ldm"][1]
+        == HUMAN_TEST_DIFFUSION_CONFIGS["ldm"]
+    )

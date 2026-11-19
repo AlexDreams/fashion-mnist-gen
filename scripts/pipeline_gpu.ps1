@@ -25,8 +25,16 @@ New-Item -ItemType Directory -Force runs\logs | Out-Null
 function Step([string]$name, [string[]]$arguments) {
     Write-Host "`n=== $name ===" -ForegroundColor Cyan
     $log = "runs\logs\$name.log"
-    & $python @arguments 2>&1 | Tee-Object -FilePath $log
-    if ($LASTEXITCODE -ne 0) { throw "Échec de l'étape '$name' (voir $log)" }
+    $previousErrorActionPreference = $ErrorActionPreference
+    try {
+        # Les avertissements Python sur stderr ne font pas échouer la pipeline.
+        $ErrorActionPreference = "Continue"
+        & $python @arguments 2>&1 | Tee-Object -FilePath $log
+        $exitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+    }
+    if ($exitCode -ne 0) { throw "Échec de l'étape '$name' (voir $log)" }
 }
 
 Step "tests" @("-m", "pytest", "-q")
