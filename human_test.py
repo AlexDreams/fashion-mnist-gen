@@ -180,8 +180,11 @@ def compute_scores(manifest: dict[str, Any], answers: list[dict[str, Any]]) -> d
     }
 
 
-def score(_: argparse.Namespace) -> None:
-    results = compute_scores(load_manifest(), load_answers())
+def score(args: argparse.Namespace) -> None:
+    excluded = set(args.exclude)
+    answers = [answer for answer in load_answers() if answer["participant"] not in excluded]
+    results = compute_scores(load_manifest(), answers)
+    results["excluded_participants"] = sorted(excluded)
     RESULTS.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"{results['participants']} participants, {results['answers']} réponses")
     for source, stats in results["per_source"].items():
@@ -208,6 +211,10 @@ def main() -> None:
     )
     prepare_parser.set_defaults(func=prepare)
     score_parser = commands.add_parser("score", help="compute the scores")
+    score_parser.add_argument(
+        "--exclude", nargs="*", default=[],
+        help="participants left out of the scores (e.g. non-blind organisers)",
+    )
     score_parser.set_defaults(func=score)
     args = parser.parse_args()
     args.func(args)

@@ -521,21 +521,41 @@ with tab_human:
                     index for index in order if items[index]["id"] not in already
                 ]
             remaining = st.session_state[state_key]
-            done = len(items) - len(remaining)
-            st.progress(done / len(items), text=f"{done} / {len(items)}")
             if remaining:
-                item = items[remaining[0]]
-                image = np.array(Image.open(human_test.POOL_DIR / f"{item['id']}.png"))
-                picture = np.kron(image, np.ones((8, 8), dtype=np.uint8))
-                st.image(picture, width=224)
-                left, right, _ = st.columns([1, 1, 4])
-                for column, answer, text in (
-                    (left, "real", "Vraie"),
-                    (right, "generated", "Générée"),
-                ):
-                    if column.button(text, key=f"{answer}_{item['id']}", type="primary"):
-                        human_test.record_answer(participant, item["id"], answer)
-                        remaining.pop(0)
+                st.caption(
+                    f"{len(remaining)} images à juger. Cochez une réponse sous chaque "
+                    "image, puis envoyez tout en bas de la page."
+                )
+                choices = {"Vraie": "real", "Générée": "generated"}
+                columns_per_row = 5
+                with st.form(f"form_{state_key}"):
+                    picked = {}
+                    for start in range(0, len(remaining), columns_per_row):
+                        row = st.columns(columns_per_row)
+                        for offset, (column, index) in enumerate(
+                            zip(row, remaining[start:start + columns_per_row])
+                        ):
+                            item = items[index]
+                            image = np.array(
+                                Image.open(human_test.POOL_DIR / f"{item['id']}.png")
+                            )
+                            with column:
+                                st.image(np.kron(image, np.ones((5, 5), dtype=np.uint8)),
+                                         caption=f"n° {start + offset + 1}")
+                                picked[item["id"]] = st.radio(
+                                    f"Image {item['id']}", list(choices), index=None,
+                                    horizontal=True, label_visibility="collapsed",
+                                    key=f"pick_{state_key}_{item['id']}",
+                                )
+                    submitted = st.form_submit_button("Envoyer mes réponses", type="primary")
+                if submitted:
+                    missing = [image_id for image_id, value in picked.items() if value is None]
+                    if missing:
+                        st.error(f"Il manque {len(missing)} réponse(s) : rien n'a été enregistré.")
+                    else:
+                        for image_id, value in picked.items():
+                            human_test.record_answer(participant, image_id, choices[value])
+                        st.session_state[state_key] = []
                         st.rerun()
             else:
                 st.success("Merci, c'est terminé !")
